@@ -28,6 +28,7 @@
     </div>
     <div class="court"></div>
 
+
     <script>
         const RotationData = {
     rotations: [
@@ -56,7 +57,8 @@
                 { name: "OH2", x: 325, y: 425 },    //Position 5
                 { name: "L", x: 400, y: 425 }       //Position 6
             ],
-            youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_1"
+            youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_1",
+            imageUrl: "./Assets/rotation1.png"
         },
 
         { // Rotation 2
@@ -84,7 +86,8 @@
                 { name: "L", x: 400, y: 425 },      //Position 5
                 { name: "S", x: 450, y: 250 }       //Position 6
             ], 
-            youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_2"
+            youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_2",
+            imageUrl: "./Assets/rotation2.png"
         },
 
         { // Rotation 3
@@ -112,7 +115,8 @@
                 { name: "S", x: 350, y: 275 },       //Position 5
                 { name: "OH1", x: 400, y: 425 }      //Position 6
             ], 
-            youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_3"
+            youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_3",
+            imageUrl: "./Assets/rotation3.png"
         },
 
         { // Rotation 4
@@ -140,7 +144,8 @@
                 { name: "OH1", x: 475, y: 425 },     //Position 5
                 { name: "L", x: 400, y: 425 }        //Position 6
             ], 
-            youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_4"
+            youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_4",
+            imageUrl: "./Assets/rotation4.png"
         },
 
         { // Rotation 5
@@ -168,7 +173,8 @@
                 { name: "L", x: 400, y: 425 },       //Position 5
                 { name: "OP", x: 450, y: 525 }       //Position 6
             ], 
-            youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_5"
+            youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_5",
+            imageUrl: "./Assets/rotation5.png"
         },
 
         { // Rotation 6
@@ -196,7 +202,8 @@
                 { name: "OP", x: 350, y: 525 },      //Position 5
                 { name: "OH2", x: 400, y: 425 }      //Position 6
             ], 
-            youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_6"
+            youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_6",
+            imageUrl: "./Assets/rotation6.png"
         },
 
         
@@ -302,10 +309,35 @@ function openYouTubePlaylist() {
     // Open the playlist in a new tab
     window.open(currentPlaylistUrl, '_blank');
 }
+function updateRotationImage(rotationIndex) {
+    // Check if the image element already exists
+    let rotationImage = document.querySelector('.rotation-image');
+    
+    if (!rotationImage) {
+        // Create the img element if it doesn't exist
+        rotationImage = document.createElement('img');
+        rotationImage.className = 'rotation-image';
+        rotationImage.alt = 'Rotation Image';
+        document.body.appendChild(rotationImage); // Append directly to the body
+    }
+
+    // Set the image source dynamically
+    const imageSources = [
+        './Assets/rotation1.png',
+        './Assets/rotation2.png',
+        './Assets/rotation3.png',
+        './Assets/rotation4.png',
+        './Assets/rotation5.png',
+        './Assets/rotation6.png'
+    ];
+
+    rotationImage.src = imageSources[rotationIndex];
+}
 
 function handleRotationChange() {
     currentRotation = parseInt(document.getElementById('rotationSelect').value);
     createPlayers();
+    updateRotationImage(currentRotation);
 }
 
 function setServePositions() {
@@ -338,7 +370,9 @@ window.addEventListener('resize', createPlayers);
 // Initialize the board
 window.onload = () => {
     createPlayers();
+    updateRotationImage(currentRotation);
 };
+
     </script>    
 </body>
 </html>

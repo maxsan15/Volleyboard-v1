@@ -70,3 +70,12 @@
                 font-size: 14px;
             }
         }
+        .rotation-image {
+            position: fixed;
+            bottom: 5%; /* Adjust distance from the bottom */
+            left: -30%; /* Align on the left side */
+            width: 1500px; /* Set width to 20% of the viewport */
+            height: auto; /* Maintain square aspect ratio */
+            object-fit: contain; /* Preserve aspect ratio */
+            border: none;
+        }
