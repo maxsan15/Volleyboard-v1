@@ -74,4 +74,174 @@ const Player: React.FC<PlayerProps> = ({ id, x, y, updatePosition }) => {
   );
 };
 
+/** const RotationData = {
+  rotations: [
+    { // Rotation 1
+        positions: [
+            { name: "S", x: 500, y: 450 },      //Position 1
+            { name: "OH1", x: 500, y: 250 },    //Position 2
+            { name: "M2", x: 400, y: 250 },     //Position 3
+            { name: "OP", x: 300, y: 250 },     //Position 4
+            { name: "OH2", x: 300, y: 450 },    //Position 5
+            { name: "L", x: 400, y: 450 }       //Position 6
+        ],
+        servePositions: [
+            { name: "S", x: 500, y: 575},       //Position 1
+            { name: "OH1", x: 425, y: 250 },    //Position 2
+            { name: "M2", x: 400, y: 200 },     //Position 3
+            { name: "OP", x: 375, y: 250 },     //Position 4
+            { name: "OH2", x: 400, y: 450 },    //Position 5
+            { name: "L", x: 450, y: 375 }       //Position 6
+        ],
+        receivePositions: [
+            { name: "S", x: 510, y: 455 },      //Position 1
+            { name: "OH1", x: 475, y: 425 },    //Position 2
+            { name: "M2", x: 280, y: 250 },     //Position 3
+            { name: "OP", x: 265, y: 200 },     //Position 4
+            { name: "OH2", x: 325, y: 425 },    //Position 5
+            { name: "L", x: 400, y: 425 }       //Position 6
+        ],
+        youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_1"
+    },
+
+    { // Rotation 2
+        positions: [
+            { name: "OH1", x: 500, y: 450 },    //Position 1
+            { name: "M2", x: 500, y: 250 },     //Position 2
+            { name: "OP", x: 400, y: 250 },     //Position 3
+            { name: "OH2", x: 300, y: 250 },    //Position 4
+            { name: "L", x: 300, y: 450 },      //Position 5
+            { name: "S", x: 400, y: 450 }       //Position 6
+        ],
+        servePositions: [
+            { name: "OH1", x: 500, y: 575 },    //Position 1
+            { name: "M2", x: 400, y: 200 },     //Position 2
+            { name: "OP", x: 375, y: 250 },     //Position 3
+            { name: "OH2", x: 330, y: 200 },    //Position 4
+            { name: "L", x: 300, y: 375 },      //Position 5
+            { name: "S", x: 500, y: 375 }       //Position 6
+        ],
+        receivePositions: [
+            { name: "OH1", x: 500, y: 425 },    //Position 1
+            { name: "M2", x: 525, y: 275 },     //Position 2
+            { name: "OP", x: 500, y: 200 },     //Position 3
+            { name: "OH2", x: 300, y: 400 },    //Position 4
+            { name: "L", x: 400, y: 425 },      //Position 5
+            { name: "S", x: 450, y: 250 }       //Position 6
+        ], 
+        youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_2"
+    },
+
+    { // Rotation 3
+        positions: [
+            { name: "L", x: 500, y: 450 },       //Position 1
+            { name: "OP", x: 500, y: 250 },      //Position 2
+            { name: "OH2", x: 400, y: 250 },     //Position 3
+            { name: "M1", x: 300, y: 250 },      //Position 4
+            { name: "S", x: 300, y: 450 },       //Position 5
+            { name: "OH1", x: 400, y: 450 }      //Position 6
+        ],
+        servePositions: [
+            { name: "M2", x: 500, y: 575 },      //Position 1
+            { name: "OP", x: 475, y: 200 },      //Position 2
+            { name: "OH2", x: 425, y: 250 },     //Position 3
+            { name: "M1", x: 400, y: 200 },      //Position 4
+            { name: "S", x: 350, y: 375 },       //Position 5
+            { name: "OH1", x: 400, y: 450 }      //Position 6
+        ],
+        receivePositions: [
+            { name: "L", x: 475, y: 425 },       //Position 1
+            { name: "OP", x: 525, y: 275 },      //Position 2
+            { name: "OH2", x: 300, y: 400 },     //Position 3
+            { name: "M1", x: 275, y: 250 },      //Position 4
+            { name: "S", x: 350, y: 275 },       //Position 5
+            { name: "OH1", x: 400, y: 425 }      //Position 6
+        ], 
+        youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_3"
+    },
+
+    { // Rotation 4
+        positions: [
+            { name: "OP", x: 500, y: 450 },      //Position 1
+            { name: "OH2", x: 500, y: 250 },     //Position 2
+            { name: "M1", x: 400, y: 250 },      //Position 3
+            { name: "S", x: 300, y: 250 },       //Position 4
+            { name: "OH1", x: 300, y: 450 },     //Position 5
+            { name: "L", x: 400, y: 450 }        //Position 6
+        ],
+        servePositions: [
+            { name: "OP", x: 500, y: 575 },      //Position 1
+            { name: "OH2", x: 425, y: 250 },     //Position 2
+            { name: "M1", x: 400, y: 200 },      //Position 3
+            { name: "S", x: 375, y: 250 },       //Position 4
+            { name: "OH1", x: 400, y: 450 },     //Position 5
+            { name: "L", x: 450, y: 375 }        //Position 6
+        ],
+        receivePositions: [
+            { name: "OP", x: 510, y: 525 },      //Position 1
+            { name: "OH2", x: 325, y: 400 },     //Position 2
+            { name: "M1", x: 280, y: 250 },      //Position 3
+            { name: "S", x: 265, y: 200 },       //Position 4
+            { name: "OH1", x: 475, y: 425 },     //Position 5
+            { name: "L", x: 400, y: 425 }        //Position 6
+        ], 
+        youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_4"
+    },
+
+    { // Rotation 5
+        positions: [
+            { name: "OH2", x: 500, y: 450 },     //Position 1
+            { name: "M1", x: 500, y: 250 },      //Position 2
+            { name: "S", x: 400, y: 250 },       //Position 3
+            { name: "OH1", x: 300, y: 250 },     //Position 4
+            { name: "L", x: 300, y: 450 },       //Position 5
+            { name: "OP", x: 400, y: 450 }       //Position 6
+        ],
+        servePositions: [
+            { name: "OH2", x: 500, y: 575 },     //Position 1
+            { name: "M1", x: 400, y: 200 },      //Position 2
+            { name: "S", x: 375, y: 250 },       //Position 3
+            { name: "OH1", x: 330, y: 200 },     //Position 4
+            { name: "L", x: 300, y: 375 },       //Position 5
+            { name: "OP", x: 500, y: 375 }       //Position 6
+        ],
+        receivePositions: [
+            { name: "OH2", x: 475, y: 425 },     //Position 1
+            { name: "M1", x: 525, y: 275 },      //Position 2
+            { name: "S", x: 450, y: 200 },       //Position 3
+            { name: "OH1", x: 325, y: 400 },     //Position 4
+            { name: "L", x: 400, y: 425 },       //Position 5
+            { name: "OP", x: 450, y: 525 }       //Position 6
+        ], 
+        youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_5"
+    },
+
+    { // Rotation 6
+        positions: [
+            { name: "M1", x: 500, y: 450 },      //Position 1
+            { name: "S", x: 500, y: 250 },       //Position 2
+            { name: "OH1", x: 400, y: 250 },     //Position 3
+            { name: "M2", x: 300, y: 250 },      //Position 4
+            { name: "OP", x: 300, y: 450 },      //Position 5
+            { name: "OH2", x: 400, y: 450 }      //Position 6
+        ],
+        servePositions: [
+            { name: "M1", x: 500, y: 575 },      //Position 1
+            { name: "S", x: 475, y: 200 },       //Position 2
+            { name: "OH1", x: 425, y: 250 },     //Position 3
+            { name: "M2", x: 400, y: 200 },      //Position 4
+            { name: "OP", x: 350, y: 375 },      //Position 5
+            { name: "OH2", x: 400, y: 450 }      //Position 6
+        ],
+        receivePositions: [
+            { name: "L", x: 475, y: 425 },       //Position 1
+            { name: "S", x: 450, y: 200 },       //Position 2
+            { name: "OH1", x: 325, y: 400 },     //Position 3
+            { name: "M2", x: 275, y: 275 },      //Position 4
+            { name: "OP", x: 350, y: 525 },      //Position 5
+            { name: "OH2", x: 400, y: 425 }      //Position 6
+        ], 
+        youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_6"
+    }, */
+
 export default Player;
