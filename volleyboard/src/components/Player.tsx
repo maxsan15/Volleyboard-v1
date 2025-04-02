@@ -1,46 +1,59 @@
 // src/components/Player.tsx
 import React, { useState, useRef } from 'react';
 
-interface PlayerProps {
-  id: number;
-  x: number;
-  y: number;
-  updatePosition: (id: number, newX: number, newY: number) => void;
+export interface PlayerData {
+  id: string;
+  x: number;    // % of container width
+  y: number;    // % of container height
+  color: string;
 }
 
-const Player: React.FC<PlayerProps> = ({ id, x, y, updatePosition }) => {
+interface PlayerProps {
+  id: string;
+  x: number;
+  y: number;
+  color: string;
+  updatePosition: (id: string, newX: number, newY: number) => void;
+}
+
+const Player: React.FC<PlayerProps> = ({ id, x, y, color, updatePosition }) => {
   const playerRef = useRef<HTMLDivElement>(null);
-  const [dragging, setDragging] = useState<boolean>(false);
-  const offsetRef = useRef<{ offsetX: number; offsetY: number }>({ offsetX: 0, offsetY: 0 });
+  const [dragging, setDragging] = useState(false);
+  const offsetRef = useRef({ offsetX: 0, offsetY: 0 });
   const containerRectRef = useRef<DOMRect | null>(null);
 
-  // Initiate dragging: capture pointer and calculate offset relative to container
+  // Adjust player size based on screen width.
+  const playerSize =
+    typeof window !== 'undefined' && window.innerWidth < 768 ? 40 : 50;
+
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
     setDragging(true);
-
-    // Get container bounding rectangle; default to null if undefined
-    const containerRect = playerRef.current?.offsetParent?.getBoundingClientRect();
-    containerRectRef.current = containerRect || null;
-
-    // Compute offset relative to container coordinate system
-    if (containerRectRef.current) {
+    const containerRect =
+      playerRef.current?.offsetParent?.getBoundingClientRect() || null;
+    containerRectRef.current = containerRect;
+    if (containerRect) {
+      const pointerXPercent =
+        ((e.clientX - containerRect.left) / containerRect.width) * 100;
+      const pointerYPercent =
+        ((e.clientY - containerRect.top) / containerRect.height) * 100;
       offsetRef.current = {
-        offsetX: e.clientX - containerRectRef.current.left - x,
-        offsetY: e.clientY - containerRectRef.current.top - y,
+        offsetX: pointerXPercent - x,
+        offsetY: pointerYPercent - y,
       };
     }
   };
 
-  // Update player's position while dragging using container coordinates
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!dragging || !containerRectRef.current) return;
-    const newX = e.clientX - containerRectRef.current.left - offsetRef.current.offsetX;
-    const newY = e.clientY - containerRectRef.current.top - offsetRef.current.offsetY;
+    const { left, top, width, height } = containerRectRef.current;
+    const pointerXPercent = ((e.clientX - left) / width) * 100;
+    const pointerYPercent = ((e.clientY - top) / height) * 100;
+    const newX = pointerXPercent - offsetRef.current.offsetX;
+    const newY = pointerYPercent - offsetRef.current.offsetY;
     updatePosition(id, newX, newY);
   };
 
-  // End dragging and release pointer capture
   const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
     setDragging(false);
     (e.target as HTMLElement).releasePointerCapture(e.pointerId);
@@ -51,19 +64,22 @@ const Player: React.FC<PlayerProps> = ({ id, x, y, updatePosition }) => {
       ref={playerRef}
       style={{
         position: 'absolute',
-        left: x,
-        top: y,
-        width: '40px',
-        height: '40px',
+        left: `${x}%`,
+        top: `${y}%`,
+        width: `${playerSize}px`,
+        height: `${playerSize}px`,
         borderRadius: '50%',
-        backgroundColor: 'dodgerblue',
-        color: 'white',
+        backgroundColor: color,
+        color: '#fff',
         display: 'flex',
-        justifyContent: 'center',
         alignItems: 'center',
-        userSelect: 'none',
+        justifyContent: 'center',
         cursor: 'grab',
+        userSelect: 'none',
         touchAction: 'none',
+        fontWeight: 'bold',
+        transform: 'translate(-50%, -50%)',
+        fontSize: playerSize / 2.5,
       }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -73,6 +89,11 @@ const Player: React.FC<PlayerProps> = ({ id, x, y, updatePosition }) => {
     </div>
   );
 };
+
+export default Player;
+
+
+
 
 /** const RotationData = {
   rotations: [
@@ -244,4 +265,3 @@ const Player: React.FC<PlayerProps> = ({ id, x, y, updatePosition }) => {
         youtubePlaylistUrl: "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID_ROTATION_6"
     }, */
 
-export default Player;

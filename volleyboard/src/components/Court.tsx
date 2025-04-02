@@ -1,110 +1,291 @@
 // src/components/Court.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Player from './Player';
+import { PlayerData } from './Player';
 
-interface PlayerPosition {
-  id: number;
-  x: number;
-  y: number;
+// Define a type for a rotation set (6 rotations per set)
+interface RotationSet {
+  [rotation: number]: PlayerData[];
 }
 
-// Predefined positions for each rotation (for demonstration)
-const rotationPositions: { [key: number]: PlayerPosition[] } = {
+/*
+  For this vertical layout, we base our percentages on a 600x900 container.
+  Real dimensions: each side is 9m. Here, we display our team's side (9m) plus 
+  half of the opposing side (4.5m) = 13.5m total.
+  Our side occupies 9/13.5 ≈ 66.67% of the vertical space.
+*/
+
+// Default rotations – positions for our team (all players on our side)
+const defaultRotations: RotationSet = {
   1: [
-    { id: 1, x: 50, y: 50 },
-    { id: 2, x: 150, y: 50 },
-    { id: 3, x: 250, y: 50 },
-    { id: 4, x: 50, y: 150 },
-    { id: 5, x: 150, y: 150 },
-    { id: 6, x: 250, y: 150 },
+    { id: 'OH1', x: 20, y: 40, color: '#000' },
+    { id: 'S',   x: 50, y: 35, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 40, color: '#000' },
+    { id: 'M1',  x: 30, y: 55, color: '#000' },
+    { id: 'OP',  x: 50, y: 60, color: '#000' },
+    { id: 'M2',  x: 70, y: 55, color: '#000' },
   ],
-  2: [
-    { id: 1, x: 60, y: 60 },
-    { id: 2, x: 160, y: 60 },
-    { id: 3, x: 260, y: 60 },
-    { id: 4, x: 60, y: 160 },
-    { id: 5, x: 160, y: 160 },
-    { id: 6, x: 260, y: 160 },
-  ],
-  3: [
-    { id: 1, x: 70, y: 70 },
-    { id: 2, x: 170, y: 70 },
-    { id: 3, x: 270, y: 70 },
-    { id: 4, x: 70, y: 170 },
-    { id: 5, x: 170, y: 170 },
-    { id: 6, x: 270, y: 170 },
-  ],
-  4: [
-    { id: 1, x: 80, y: 80 },
-    { id: 2, x: 180, y: 80 },
-    { id: 3, x: 280, y: 80 },
-    { id: 4, x: 80, y: 180 },
-    { id: 5, x: 180, y: 180 },
-    { id: 6, x: 280, y: 180 },
-  ],
-  5: [
-    { id: 1, x: 90, y: 90 },
-    { id: 2, x: 190, y: 90 },
-    { id: 3, x: 290, y: 90 },
-    { id: 4, x: 90, y: 190 },
-    { id: 5, x: 190, y: 190 },
-    { id: 6, x: 290, y: 190 },
-  ],
-  6: [
-    { id: 1, x: 100, y: 100 },
-    { id: 2, x: 200, y: 100 },
-    { id: 3, x: 300, y: 100 },
-    { id: 4, x: 100, y: 200 },
-    { id: 5, x: 200, y: 200 },
-    { id: 6, x: 300, y: 200 },
-  ],
+  2: [ 
+    { id: 'OH1', x: 20, y: 40, color: '#000' },
+    { id: 'S',   x: 50, y: 35, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 40, color: '#000' },
+    { id: 'M1',  x: 30, y: 55, color: '#000' },
+    { id: 'OP',  x: 50, y: 60, color: '#000' },
+    { id: 'M2',  x: 70, y: 55, color: '#000' },
+   ],
+  3: [ 
+    { id: 'OH1', x: 20, y: 40, color: '#000' },
+    { id: 'S',   x: 50, y: 35, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 40, color: '#000' },
+    { id: 'M1',  x: 30, y: 55, color: '#000' },
+    { id: 'OP',  x: 50, y: 60, color: '#000' },
+    { id: 'M2',  x: 70, y: 55, color: '#000' },
+   ],
+  4: [ 
+    { id: 'OH1', x: 20, y: 40, color: '#000' },
+    { id: 'S',   x: 50, y: 35, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 40, color: '#000' },
+    { id: 'M1',  x: 30, y: 55, color: '#000' },
+    { id: 'OP',  x: 50, y: 60, color: '#000' },
+    { id: 'M2',  x: 70, y: 55, color: '#000' },
+   ],
+  5: [ 
+    { id: 'OH1', x: 20, y: 40, color: '#000' },
+    { id: 'S',   x: 50, y: 35, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 40, color: '#000' },
+    { id: 'M1',  x: 30, y: 55, color: '#000' },
+    { id: 'OP',  x: 50, y: 60, color: '#000' },
+    { id: 'M2',  x: 70, y: 55, color: '#000' },
+   ],
+  6: [ 
+    { id: 'OH1', x: 20, y: 40, color: '#000' },
+    { id: 'S',   x: 50, y: 35, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 40, color: '#000' },
+    { id: 'M1',  x: 30, y: 55, color: '#000' },
+    { id: 'OP',  x: 50, y: 60, color: '#000' },
+    { id: 'M2',  x: 70, y: 55, color: '#000' },
+   ],
 };
 
-interface CourtProps {
-  rotation: number;
-}
+// Serve rotations – positions shifted slightly upward (closer to the net)
+const serveRotations: RotationSet = {
+  1: [
+    { id: 'OH1', x: 20, y: 38, color: '#000' },
+    { id: 'S',   x: 50, y: 33, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 38, color: '#000' },
+    { id: 'M1',  x: 30, y: 53, color: '#000' },
+    { id: 'OP',  x: 50, y: 58, color: '#000' },
+    { id: 'M2',  x: 70, y: 53, color: '#000' },
+  ],
+  2: [ 
+    { id: 'OH1', x: 20, y: 38, color: '#000' },
+    { id: 'S',   x: 50, y: 33, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 38, color: '#000' },
+    { id: 'M1',  x: 30, y: 53, color: '#000' },
+    { id: 'OP',  x: 50, y: 58, color: '#000' },
+    { id: 'M2',  x: 70, y: 53, color: '#000' }, ],
 
-const Court: React.FC<CourtProps> = ({ rotation }) => {
-  const [players, setPlayers] = useState<PlayerPosition[]>(rotationPositions[1]);
+  3: [ 
+    { id: 'OH1', x: 20, y: 38, color: '#000' },
+    { id: 'S',   x: 50, y: 33, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 38, color: '#000' },
+    { id: 'M1',  x: 30, y: 53, color: '#000' },
+    { id: 'OP',  x: 50, y: 58, color: '#000' },
+    { id: 'M2',  x: 70, y: 53, color: '#000' }, ],
 
-  useEffect(() => {
-    setPlayers(rotationPositions[rotation]);
-  }, [rotation]);
+  4: [ 
+    { id: 'OH1', x: 20, y: 38, color: '#000' },
+    { id: 'S',   x: 50, y: 33, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 38, color: '#000' },
+    { id: 'M1',  x: 30, y: 53, color: '#000' },
+    { id: 'OP',  x: 50, y: 58, color: '#000' },
+    { id: 'M2',  x: 70, y: 53, color: '#000' }, ],
 
-  const updatePlayerPosition = (id: number, newX: number, newY: number) => {
-    setPlayers((prevPlayers) =>
-      prevPlayers.map((player) =>
-        player.id === id ? { ...player, x: newX, y: newY } : player
-      )
-    );
+  5: [ 
+    { id: 'OH1', x: 20, y: 38, color: '#000' },
+    { id: 'S',   x: 50, y: 33, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 38, color: '#000' },
+    { id: 'M1',  x: 30, y: 53, color: '#000' },
+    { id: 'OP',  x: 50, y: 58, color: '#000' },
+    { id: 'M2',  x: 70, y: 53, color: '#000' }, ],
+
+  6: [ 
+    { id: 'OH1', x: 20, y: 38, color: '#000' },
+    { id: 'S',   x: 50, y: 33, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 38, color: '#000' },
+    { id: 'M1',  x: 30, y: 53, color: '#000' },
+    { id: 'OP',  x: 50, y: 58, color: '#000' },
+    { id: 'M2',  x: 70, y: 53, color: '#000' }, ],
+
+};
+
+// Receive rotations – positions shifted slightly downward (deeper on our side)
+const receiveRotations: RotationSet = {
+  1: [
+    { id: 'OH1', x: 20, y: 42, color: '#000' },
+    { id: 'S',   x: 50, y: 37, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 42, color: '#000' },
+    { id: 'M1',  x: 30, y: 57, color: '#000' },
+    { id: 'OP',  x: 50, y: 62, color: '#000' },
+    { id: 'M2',  x: 70, y: 57, color: '#000' },
+  ],
+  2: [ 
+    { id: 'OH1', x: 20, y: 42, color: '#000' },
+    { id: 'S',   x: 50, y: 37, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 42, color: '#000' },
+    { id: 'M1',  x: 30, y: 57, color: '#000' },
+    { id: 'OP',  x: 50, y: 62, color: '#000' },
+    { id: 'M2',  x: 70, y: 57, color: '#000' },
+   ],
+  3: [ 
+    { id: 'OH1', x: 20, y: 42, color: '#000' },
+    { id: 'S',   x: 50, y: 37, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 42, color: '#000' },
+    { id: 'M1',  x: 30, y: 57, color: '#000' },
+    { id: 'OP',  x: 50, y: 62, color: '#000' },
+    { id: 'M2',  x: 70, y: 57, color: '#000' },
+   ],
+  4: [ 
+    { id: 'OH1', x: 20, y: 42, color: '#000' },
+    { id: 'S',   x: 50, y: 37, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 42, color: '#000' },
+    { id: 'M1',  x: 30, y: 57, color: '#000' },
+    { id: 'OP',  x: 50, y: 62, color: '#000' },
+    { id: 'M2',  x: 70, y: 57, color: '#000' },
+   ],
+  5: [ 
+    { id: 'OH1', x: 20, y: 42, color: '#000' },
+    { id: 'S',   x: 50, y: 37, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 42, color: '#000' },
+    { id: 'M1',  x: 30, y: 57, color: '#000' },
+    { id: 'OP',  x: 50, y: 62, color: '#000' },
+    { id: 'M2',  x: 70, y: 57, color: '#000' },
+   ],
+  6: [ 
+    { id: 'OH1', x: 20, y: 42, color: '#000' },
+    { id: 'S',   x: 50, y: 37, color: '#467fbd' },
+    { id: 'OH2', x: 80, y: 42, color: '#000' },
+    { id: 'M1',  x: 30, y: 57, color: '#000' },
+    { id: 'OP',  x: 50, y: 62, color: '#000' },
+    { id: 'M2',  x: 70, y: 57, color: '#000' },
+   ],
+};
+
+// Combine all rotation sets
+const rotationSets = {
+  default: defaultRotations,
+  serve: serveRotations,
+  receive: receiveRotations,
+};
+
+type RotationSetName = keyof typeof rotationSets;
+
+const Court: React.FC = () => {
+  // Active set: "default", "serve", or "receive"
+  const [activeSet, setActiveSet] = useState<RotationSetName>('default');
+  // Rotation number (1–6)
+  const [rotationIndex, setRotationIndex] = useState<number>(1);
+
+  // When the dropdown changes, force the active set to "default"
+  const handleRotationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setActiveSet('default');
+    setRotationIndex(parseInt(e.target.value, 10));
   };
 
+  // Clicking Serve or Receive changes the active set
+  const handleSetChange = (setName: RotationSetName) => {
+    setActiveSet(setName);
+  };
+
+  // Determine container max width based on screen size
+  const maxWidth =
+    typeof window !== 'undefined' && window.innerWidth < 768 ? '400px' : '600px';
+
+  // Get current players’ positions from the selected set and rotation
+  const currentPlayers = rotationSets[activeSet][rotationIndex];
+
   return (
-    <div
-      style={{
-        position: 'relative',
-        width: '90%',         // Court takes up 90% of the available width
-        maxWidth: '600px',     // But no wider than 600px
-        aspectRatio: '4 / 3',  // Maintains a 4:3 ratio automatically
-        border: '2px solid #000',
-        margin: '20px auto',
-        // Grid background: vertical lines for 3 columns and horizontal lines for 2 rows
-        backgroundImage: `
-          linear-gradient(to right, #ccc 1px, transparent 1px),
-          linear-gradient(to bottom, #ccc 1px, transparent 1px)
-        `,
-        backgroundSize: '33.33% 100%, 100% 50%',
-      }}
-    >
-      {players.map((player) => (
-        <Player
-          key={player.id}
-          id={player.id}
-          x={player.x}
-          y={player.y}
-          updatePosition={updatePlayerPosition}
+    <div style={{ textAlign: 'center' }}>
+      {/* Top controls: Serve button, rotation dropdown, Receive button */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '10px',
+          marginBottom: '10px',
+        }}
+      >
+        <button
+          onClick={() => handleSetChange('serve')}
+          style={{ padding: '8px 16px', fontSize: '1rem' }}
+        >
+          Serve
+        </button>
+        <select
+          value={rotationIndex}
+          onChange={handleRotationChange}
+          style={{ padding: '8px', fontSize: '1rem' }}
+        >
+          {[1, 2, 3, 4, 5, 6].map((num) => (
+            <option key={num} value={num}>
+              Rotation {num}
+            </option>
+          ))}
+        </select>
+        <button
+          onClick={() => handleSetChange('receive')}
+          style={{ padding: '8px 16px', fontSize: '1rem' }}
+        >
+          Receive
+        </button>
+      </div>
+
+      {/* Display active set and rotation */}
+      <div style={{ marginBottom: '10px', fontSize: '1rem' }}>
+        Active Set: <strong>{activeSet}</strong>, Rotation:{' '}
+        <strong>{rotationIndex}</strong>
+      </div>
+
+      {/* Responsive volleyball court container */}
+      <div
+        style={{
+          position: 'relative',
+          width: '90%',
+          maxWidth,
+          height: 0,
+          paddingBottom: '150%', // 2:3 aspect ratio (e.g., 600x900)
+          margin: '20px auto',
+          backgroundColor: '#ddd',
+          border: '2px solid #000',
+        }}
+      >
+        {/* Draw a horizontal dashed net line at 66.67% from the top.
+            Since our display represents 13.5m total height,
+            our side (9m) occupies 66.67% and the opposing near half (4.5m) is 33.33%. */}
+        <div
+          style={{
+            position: 'absolute',
+            top: '66.67%',
+            left: 0,
+            width: '100%',
+            borderTop: '2px dashed #999',
+          }}
         />
-      ))}
+        {/* Render players (positions are relative to a 600x900 container) */}
+        {currentPlayers.map((player) => (
+          <Player
+            key={player.id}
+            id={player.id}
+            x={player.x}
+            y={player.y}
+            color={player.color}
+            updatePosition={() => {
+              /* Manual dragging is not used in this rotation example */
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 };
