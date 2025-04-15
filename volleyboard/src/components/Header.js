@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 function Header() {
   return (
     <div className="Header">
-        <button type="button" className="serve-btn btn btn-light">Serve</button>
+        <button type="button" className="btn btn-light serve-btn">Serve</button>
         <div className="dropdown dd-menu">
             <button className="btn btn-light dropdown-toggle rotation-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Rotation
@@ -24,5 +24,3 @@ function Header() {
 }
 
 export default Header;
-
-
