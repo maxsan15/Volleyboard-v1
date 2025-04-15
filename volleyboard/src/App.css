@@ -36,10 +36,12 @@
     z-index: 1;
 }
 
-.serve-btn {margin: 0vmin .5vmin 0vmin .5vmin;
+.serve-btn {
+  margin: .5vmin .5vmin .5vmin .5vmin;
 }
-.receive-btn{margin: 0vmin .5vmin 0vmin .5vmin;
+.receive-btn{
+  margin: .5vmin .5vmin .5vmin .5vmin;
 }
 .dd-menu {
-  margin: 0vmin .5vmin 0vmin .5vmin;
+  margin: .5vmin .5vmin .5vmin .5vmin;
 }
