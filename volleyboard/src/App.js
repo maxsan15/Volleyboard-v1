@@ -1,6 +1,6 @@
-import logo from './logo.svg';
 import Court from './components/Court';
 import Header from './components/Header';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 function App() {
