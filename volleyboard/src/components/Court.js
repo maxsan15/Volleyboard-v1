@@ -1,18 +1,31 @@
 import React, { useState, useRef, useEffect } from 'react';
+import rotations from './Rotations';
 
 const initialPlayers = [
   { id: 'S', x: 50, y: 50 },
   { id: 'OH1', x: 150, y: 50 },
-  { id: 'M2', x: 250, y: 50 },
+  { id: 'M', x: 250, y: 50 },
   { id: 'OP', x: 50, y: 150 },
   { id: 'OH2', x: 150, y: 150 },
   { id: 'L', x: 250, y: 150 },
 ];
 
-function Court() {
+function Court({ currentRotation, formation }) {
+  
   const courtRef = useRef(null);
   const [players, setPlayers] = useState(initialPlayers);
   const [draggingId, setDraggingId] = useState(null);
+
+  useEffect(() => {
+    if (!rotations[currentRotation] || !rotations[currentRotation][formation]) {
+      console.warn('Invalid rotation or formation:', currentRotation, formation);
+      return;
+    }
+  
+    const layout = rotations[currentRotation][formation];
+    const clonedLayout = layout.map((p) => ({ ...p }));
+    setPlayers(clonedLayout);
+  }, [currentRotation, formation]);
 
   const handleMouseDown = (id) => (e) => {
     e.preventDefault();
@@ -48,6 +61,7 @@ function Court() {
       document.removeEventListener('mouseup', handleMouseUp);
     };
   }, [draggingId]);
+  
 
   return (
     <div className="Court" ref={courtRef}>
