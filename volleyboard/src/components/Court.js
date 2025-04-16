@@ -13,7 +13,7 @@ const initialPlayers = [
 function Court({ currentRotation, formation }) {
   
   const courtRef = useRef(null);
-  const [players, setPlayers] = useState(initialPlayers);
+  const [players, setPlayers] = useState([]);
   const [draggingId, setDraggingId] = useState(null);
 
   useEffect(() => {

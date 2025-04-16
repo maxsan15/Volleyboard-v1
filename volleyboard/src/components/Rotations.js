@@ -17,7 +17,7 @@ const rotations = {
       { id: 'L', x: 300, y: 300 },
     ],
     receive: [
-      { id: 'S', x: 100, y: 300 },
+      { id: 'S', x: 150, y: 300 },
       { id: 'OH1', x: 200, y: 200 },
       { id: 'M2', x: 300, y: 200 },
       { id: 'OP', x: 400, y: 200 },

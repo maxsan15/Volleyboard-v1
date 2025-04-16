@@ -9,13 +9,28 @@ function Header({
 }) {
   return (
     <div className="Header">
-        <button type="button" className="btn btn-light serve-btn" onClick={() => setFormation('serve')}>Serve</button>
+          <button
+            type="button"
+            className="btn btn-light serve-btn"
+            onClick={() => {
+              console.log('Serve button clicked');
+              setFormation('serve');
+            }}
+          >
+            Serve
+          </button>
         <div className="dropdown dd-menu">
             <select className="btn btn-light dropdown-toggle rotation-button" type="button" data-bs-toggle="dropdown" aria-expanded="false"
               value={currentRotation}
               onChange={(e) => {
-                setCurrentRotation(Number(e.target.value));
-                setFormation(null); // <- reset to default
+                const selected = Number(e.target.value);
+
+                if (selected === currentRotation) {
+                  setFormation('default');
+                } else {
+                  setCurrentRotation(selected);
+                  setFormation('default'); // <- reset to default
+                }
               }}
               >
                 <option value={1}>Rotation 1</option>
@@ -26,7 +41,16 @@ function Header({
                 <option value={6}>Rotation 6</option>
             </select>
         </div>
-        <button type="button" className="btn btn-light receive-btn" onClick={() => setFormation('receive')}>Receive</button>
+        <button
+          type="button"
+          className="btn btn-light receive-btn"
+          onClick={() => {
+            console.log('Receive button clicked');
+            setFormation('receive');
+          }}
+        >
+          Receive
+        </button>
     </div>
   );
 }

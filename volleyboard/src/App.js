@@ -7,7 +7,7 @@ import './App.css';
 function App() {
 
   const [currentRotation, setCurrentRotation] = useState(1);
-  const [formation, setFormation] = useState(null); // null = default
+  const [formation, setFormation] = useState('default');
 
   return (
     <div className="App">
