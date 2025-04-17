@@ -101,7 +101,6 @@ html, body, #root {
 
 .CourtControls {
   display: flex;
-  gap: 0.5rem;
   margin-bottom: 1rem;
   flex-wrap: wrap;
   justify-content: center;
@@ -113,10 +112,3 @@ html, body, #root {
   margin-bottom: 1rem;
 }
 
-.header-btn {
-  margin: .5vmin .5vmin .5vmin .5vmin;
-}
-
-.dd-menu {
-  margin: .5vmin .5vmin .5vmin .5vmin;
-}

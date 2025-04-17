@@ -190,7 +190,7 @@ function Court({ currentRotation, formation }) {
         <div className="DrawModeNotice">Draw Mode Active</div>
       )}
 
-      <div className="CourtControls">
+      <div className="CourtControls btn-group">
         <button
           type="button"
           className="btn btn-primary"
