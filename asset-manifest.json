@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Volleyboard-v1/static/css/main.0f8abf4d.css",
-    "main.js": "/Volleyboard-v1/static/js/main.72112525.js",
+    "main.js": "/Volleyboard-v1/static/js/main.abd47c74.js",
     "index.html": "/Volleyboard-v1/index.html",
     "main.0f8abf4d.css.map": "/Volleyboard-v1/static/css/main.0f8abf4d.css.map",
-    "main.72112525.js.map": "/Volleyboard-v1/static/js/main.72112525.js.map"
+    "main.abd47c74.js.map": "/Volleyboard-v1/static/js/main.abd47c74.js.map"
   },
   "entrypoints": [
     "static/css/main.0f8abf4d.css",
-    "static/js/main.72112525.js"
+    "static/js/main.abd47c74.js"
   ]
 }
