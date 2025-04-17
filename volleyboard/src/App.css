@@ -2,7 +2,18 @@ html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #2c9848; /* your desired background color */
+  background-color: #2c9848; /* fallback background color */
+  background: 
+    linear-gradient(135deg, #2c9848 0%, #1f6d32 100%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.03) 0px,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+  background-blend-mode: overlay;
+  background-size: cover;
   font-family: 'Arial', sans-serif;
 }
 

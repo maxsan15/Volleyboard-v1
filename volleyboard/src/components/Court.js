@@ -84,7 +84,7 @@ function Court({ currentRotation, formation }) {
       if (!ctx) return;
 
       ctx.strokeStyle = drawColor;
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 4;
       ctx.lineCap = 'round';
 
       ctx.beginPath();
