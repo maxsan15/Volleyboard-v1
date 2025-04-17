@@ -143,10 +143,11 @@ function Court({ currentRotation, formation }) {
   useEffect(() => {
     const handleMove = (e) => {
       if (draggingId === null || !courtRef.current) return;
-
+      e.preventDefault(); // 🔥 critical to stop scrolling
+  
       const courtRect = courtRef.current.getBoundingClientRect();
       let clientX, clientY;
-
+  
       if (e.type.startsWith('touch')) {
         clientX = e.touches[0].clientX;
         clientY = e.touches[0].clientY;
@@ -154,28 +155,28 @@ function Court({ currentRotation, formation }) {
         clientX = e.clientX;
         clientY = e.clientY;
       }
-
+  
       const newX = ((clientX - courtRect.left) / courtRect.width) * 100;
       const newY = ((clientY - courtRect.top) / courtRect.height) * 100;
-
+  
       setPlayers((prev) =>
         prev.map((p) =>
           p.id === draggingId ? { ...p, x: newX, y: newY } : p
         )
       );
     };
-
+  
     const handlePointerUp = () => {
       setDraggingId(null);
     };
-
+  
     if (draggingId !== null) {
       document.addEventListener('mousemove', handleMove);
       document.addEventListener('mouseup', handlePointerUp);
-      document.addEventListener('touchmove', handleMove);
+      document.addEventListener('touchmove', handleMove, { passive: false }); // ✅ passive: false
       document.addEventListener('touchend', handlePointerUp);
     }
-
+  
     return () => {
       document.removeEventListener('mousemove', handleMove);
       document.removeEventListener('mouseup', handlePointerUp);
