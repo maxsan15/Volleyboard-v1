@@ -143,6 +143,7 @@ function Court({ currentRotation, formation }) {
   useEffect(() => {
     const handleMove = (e) => {
       if (draggingId === null || !courtRef.current) return;
+      e.preventDefault(); // 🔥 critical to stop scrolling
 
       const courtRect = courtRef.current.getBoundingClientRect();
       let clientX, clientY;
@@ -172,7 +173,7 @@ function Court({ currentRotation, formation }) {
     if (draggingId !== null) {
       document.addEventListener('mousemove', handleMove);
       document.addEventListener('mouseup', handlePointerUp);
-      document.addEventListener('touchmove', handleMove);
+      document.addEventListener('touchmove', handleMove, { passive: false }); // ✅ passive: false
       document.addEventListener('touchend', handlePointerUp);
     }
 
