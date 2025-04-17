@@ -11,7 +11,7 @@ function Header({
     <div className="Header">
           <button
             type="button"
-            className="btn btn-light serve-btn"
+            className="btn btn-light header-btn"
             onClick={() => {
               console.log('Serve button clicked');
               setFormation('serve');
@@ -43,13 +43,23 @@ function Header({
         </div>
         <button
           type="button"
-          className="btn btn-light receive-btn"
+          className="btn btn-light header-btn"
           onClick={() => {
             console.log('Receive button clicked');
             setFormation('receive');
           }}
         >
           Receive
+        </button>
+        <button
+          type="button"
+          className="btn btn-danger header-btn"
+          onClick={() => {
+            setFormation(null); // temporarily force a change
+            setTimeout(() => setFormation('default'), 0); // immediately back to default
+          }}
+        >
+          Reset Rotation
         </button>
     </div>
   );

@@ -4,6 +4,7 @@ import Court from './components/Court';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+
 function App() {
 
   const [currentRotation, setCurrentRotation] = useState(1);
@@ -11,7 +12,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header 
+       <Header 
         currentRotation={currentRotation}
         setCurrentRotation={setCurrentRotation}
         formation={formation}
@@ -22,7 +23,8 @@ function App() {
         currentRotation={currentRotation}
         formation={formation}
       />
-      </div>
+      </div> 
+      
     </div>
   );
 }
