@@ -84,7 +84,7 @@ const rotations = {
       { id: "M1",  x: 52, y: 16.67 },       
       { id: "S",   x: 21, y: 16.67 },     
       { id: "OH1", x: 21, y: 75 },      
-      { id: "L",   x: 52, y: 75 },       
+      { id: "M2",   x: 52, y: 75 },       
 
     ],
     serve:[
@@ -110,7 +110,7 @@ const rotations = {
       { id: "M1",  x: 81, y: 16.67 },   
       { id: "S",   x: 52, y: 16.67 },     
       { id: "OH1", x: 21, y: 16.67 },    
-      { id: "L",   x: 21, y: 75 },      
+      { id: "M2",   x: 21, y: 75 },      
       { id: "OP",  x: 52, y: 75 },        
     ],
     serve:[
