@@ -11,7 +11,7 @@ function Court({ currentRotation, formation }) {
   const [isDrawingMode, setIsDrawingMode] = useState(false);
   const [drawColor, setDrawColor] = useState('#000000');
   const [lastPoint, setLastPoint] = useState(null);
-  const scaleRef = useRef(1); // 👈 New scale reference
+  const scaleRef = useRef(1);
 
   const clearCanvas = () => {
     const canvas = canvasRef.current;
@@ -19,7 +19,7 @@ function Court({ currentRotation, formation }) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
-  // ---- 1. Setup resizeCanvas ONLY ONCE ----
+  // 🖼️ Expand canvas width (only) beyond court
   useEffect(() => {
     const canvas = canvasRef.current;
     const court = courtRef.current;
@@ -27,12 +27,19 @@ function Court({ currentRotation, formation }) {
 
     const resizeCanvas = () => {
       const rect = court.getBoundingClientRect();
+      const horizontalPadding = 400; // 👈 Add 20px on each side
       const scale = window.devicePixelRatio || 1;
-      scaleRef.current = scale; // ✅ Store latest scale!
-      canvas.width = rect.width * scale;
+      scaleRef.current = scale;
+
+      canvas.width = (rect.width + horizontalPadding) * scale;
       canvas.height = rect.height * scale;
-      canvas.style.width = `${rect.width}px`;
+
+      canvas.style.width = `${rect.width + horizontalPadding}px`;
       canvas.style.height = `${rect.height}px`;
+      canvas.style.position = 'absolute';
+      canvas.style.left = `-${horizontalPadding / 2}px`;
+      canvas.style.top = `0`;
+      canvas.style.pointerEvents = isDrawingMode ? 'auto' : 'none';
 
       ctxRef.current = canvas.getContext('2d');
       ctxRef.current.setTransform(scale, 0, 0, scale, 0, 0);
@@ -40,21 +47,18 @@ function Court({ currentRotation, formation }) {
 
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
+    return () => window.removeEventListener('resize', resizeCanvas);
+  }, [isDrawingMode]);
 
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-    };
-  }, []); // Empty dependency array: only run once
-
-  // ---- 2. Setup Drawing Listeners ----
+  // 🖊️ Drawing listeners
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
     if (!canvas || !ctx) return;
 
+    // ✅ Use canvas bounds for accurate drawing position
     const getEventPos = (e) => {
-      const court = courtRef.current;
-      const rect = court.getBoundingClientRect();
+      const rect = canvas.getBoundingClientRect();
       if (e.touches && e.touches.length > 0) {
         return {
           x: e.touches[0].clientX - rect.left,
@@ -79,7 +83,6 @@ function Court({ currentRotation, formation }) {
     const draw = (e) => {
       if (!isDrawingMode || !isDrawing || !lastPoint) return;
       const { x, y } = getEventPos(e);
-
       const ctx = ctxRef.current;
       if (!ctx) return;
 
@@ -105,7 +108,6 @@ function Court({ currentRotation, formation }) {
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mouseleave', stopDrawing);
-
     canvas.addEventListener('touchstart', startDrawing);
     canvas.addEventListener('touchmove', draw);
     canvas.addEventListener('touchend', stopDrawing);
@@ -115,14 +117,13 @@ function Court({ currentRotation, formation }) {
       canvas.removeEventListener('mousemove', draw);
       canvas.removeEventListener('mouseup', stopDrawing);
       canvas.removeEventListener('mouseleave', stopDrawing);
-
       canvas.removeEventListener('touchstart', startDrawing);
       canvas.removeEventListener('touchmove', draw);
       canvas.removeEventListener('touchend', stopDrawing);
     };
-  }, [isDrawingMode, isDrawing, lastPoint, drawColor]); // ✅ depends only on drawing needs
+  }, [isDrawingMode, isDrawing, lastPoint, drawColor]);
 
-  // ---- 3. Load player rotation layout ----
+  // 🔁 Load player layout
   useEffect(() => {
     if (!rotations[currentRotation] || !rotations[currentRotation][formation]) {
       console.warn('Invalid rotation or formation:', currentRotation, formation);
@@ -134,16 +135,18 @@ function Court({ currentRotation, formation }) {
     setPlayers(clonedLayout);
   }, [currentRotation, formation]);
 
+  // 🖱️ Start dragging
   const handlePointerDown = (id) => (e) => {
     if (isDrawingMode) return;
     e.preventDefault();
     setDraggingId(id);
   };
 
+  // 🏃 Player movement
   useEffect(() => {
     const handleMove = (e) => {
       if (draggingId === null || !courtRef.current) return;
-      e.preventDefault(); // 🔥 critical to stop scrolling
+      e.preventDefault();
 
       const courtRect = courtRef.current.getBoundingClientRect();
       let clientX, clientY;
@@ -173,7 +176,7 @@ function Court({ currentRotation, formation }) {
     if (draggingId !== null) {
       document.addEventListener('mousemove', handleMove);
       document.addEventListener('mouseup', handlePointerUp);
-      document.addEventListener('touchmove', handleMove, { passive: false }); // ✅ passive: false
+      document.addEventListener('touchmove', handleMove, { passive: false });
       document.addEventListener('touchend', handlePointerUp);
     }
 
@@ -191,6 +194,7 @@ function Court({ currentRotation, formation }) {
         <div className="DrawModeNotice">Draw Mode Active</div>
       )}
 
+      {/* 🎛️ Controls */}
       <div className="CourtControls btn-group">
         <button
           type="button"
@@ -220,13 +224,18 @@ function Court({ currentRotation, formation }) {
         </select>
       </div>
 
-      <div className="Court" ref={courtRef}>
+      {/* 🏐 Court and Canvas */}
+      <div className="Court" ref={courtRef} style={{ position: 'relative' }}>
+        {/* Wider canvas layered below player icons */}
         <canvas
           ref={canvasRef}
           className="CourtCanvas"
+          style={{ zIndex: 1 }}
         />
+
         <div className="Line" />
 
+        {/* 🧍 Players */}
         {players.map((player) => (
           <div
             key={player.id}
