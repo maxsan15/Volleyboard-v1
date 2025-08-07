@@ -199,12 +199,12 @@ function Court({ currentRotation, formation }) {
     <div className="CourtContainer">
       {isDrawingMode && <div className="DrawModeNotice">Draw Mode Active</div>}
       <div className="CourtControls btn-group">
-        <button className="btn btn-primary" onClick={() => setIsDrawingMode(prev => !prev)}>
+        <button className="btn btn-primary rounded-pill" onClick={() => setIsDrawingMode(prev => !prev)}>
           {isDrawingMode ? 'Switch to Move Players' : 'Switch to Draw Mode'}
         </button>
-        <button className="btn btn-danger" onClick={clearCanvas}>Clear Drawings</button>
-        <button className="btn btn-warning" onClick={handleUndo}>Undo Last Stroke</button>
-        <select className="btn btn-light" value={drawColor} onChange={e => setDrawColor(e.target.value)}>
+        <button className="btn btn-danger rounded-pill" onClick={clearCanvas}>Clear Drawings</button>
+        <button className="btn btn-warning rounded-pill" onClick={handleUndo}>Undo Last Stroke</button>
+        <select className="btn btn-light rounded-pill" value={drawColor} onChange={e => setDrawColor(e.target.value)}>
           <option value="#000000">Black</option>
           <option value="#FF0000">Red (Attack)</option>
           <option value="#0000FF">Blue (Defense)</option>

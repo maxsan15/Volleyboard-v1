@@ -114,7 +114,7 @@ html, body, #root {
 }
 
 .CourtControls .btn {
-  border-radius: 1rem;   /* makes each button pill-shaped */
+  border-radius: 1.5rem;   /* makes each button pill-shaped */
 }
 
 .DrawModeNotice {
